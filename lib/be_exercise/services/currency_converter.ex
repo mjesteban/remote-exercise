@@ -7,7 +7,12 @@ defmodule Exercise.Services.CurrencyConverter do
   """
 
   def convert(from, to, amount) do
-    rates()["#{to}#{from}"] * amount
+    conv = Map.get(rates(), "#{from}#{to}")
+
+    cond do
+      conv == nil -> {:error, "unsupported currencies conversion"}
+      true -> {:ok, conv * amount}
+    end
   end
 
   defp rates do
