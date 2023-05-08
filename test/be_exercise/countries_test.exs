@@ -130,4 +130,67 @@ defmodule Exercise.CountriesTest do
       assert %Ecto.Changeset{} = Countries.change_country(country)
     end
   end
+
+  describe "employees" do
+    alias Exercise.Countries.Employee
+
+    @valid_attrs %{full_name: "some full_name", job_title: "some job_title", salary: "120.5"}
+    @update_attrs %{full_name: "some updated full_name", job_title: "some updated job_title", salary: "456.7"}
+    @invalid_attrs %{full_name: nil, job_title: nil, salary: nil}
+
+    def employee_fixture(attrs \\ %{}) do
+      {:ok, employee} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Countries.create_employee()
+
+      employee
+    end
+
+    test "list_employees/0 returns all employees" do
+      employee = employee_fixture()
+      assert Countries.list_employees() == [employee]
+    end
+
+    test "get_employee!/1 returns the employee with given id" do
+      employee = employee_fixture()
+      assert Countries.get_employee!(employee.id) == employee
+    end
+
+    test "create_employee/1 with valid data creates a employee" do
+      assert {:ok, %Employee{} = employee} = Countries.create_employee(@valid_attrs)
+      assert employee.full_name == "some full_name"
+      assert employee.job_title == "some job_title"
+      assert employee.salary == Decimal.new("120.5")
+    end
+
+    test "create_employee/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Countries.create_employee(@invalid_attrs)
+    end
+
+    test "update_employee/2 with valid data updates the employee" do
+      employee = employee_fixture()
+      assert {:ok, %Employee{} = employee} = Countries.update_employee(employee, @update_attrs)
+      assert employee.full_name == "some updated full_name"
+      assert employee.job_title == "some updated job_title"
+      assert employee.salary == Decimal.new("456.7")
+    end
+
+    test "update_employee/2 with invalid data returns error changeset" do
+      employee = employee_fixture()
+      assert {:error, %Ecto.Changeset{}} = Countries.update_employee(employee, @invalid_attrs)
+      assert employee == Countries.get_employee!(employee.id)
+    end
+
+    test "delete_employee/1 deletes the employee" do
+      employee = employee_fixture()
+      assert {:ok, %Employee{}} = Countries.delete_employee(employee)
+      assert_raise Ecto.NoResultsError, fn -> Countries.get_employee!(employee.id) end
+    end
+
+    test "change_employee/1 returns a employee changeset" do
+      employee = employee_fixture()
+      assert %Ecto.Changeset{} = Countries.change_employee(employee)
+    end
+  end
 end
