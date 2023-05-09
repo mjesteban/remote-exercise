@@ -16,7 +16,7 @@ defmodule ExerciseWeb.CountryController do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.country_path(conn, :show, country))
-      |> render("show.json", country: country)
+      |> render("country.json", country: country)
     end
   end
 
@@ -29,7 +29,7 @@ defmodule ExerciseWeb.CountryController do
     country = Countries.get_country!(id)
 
     with {:ok, %Country{} = country} <- Countries.update_country(country, country_params) do
-      render(conn, "show.json", country: country)
+      render(conn, "country.json", country: country)
     end
   end
 

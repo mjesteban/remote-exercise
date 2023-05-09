@@ -137,7 +137,9 @@ defmodule Exercise.Countries do
 
   """
   def list_countries do
-    Repo.all(Country)
+    Country
+    |> Repo.all()
+    |> Repo.preload(:currency)
   end
 
   @doc """
@@ -154,7 +156,11 @@ defmodule Exercise.Countries do
       ** (Ecto.NoResultsError)
 
   """
-  def get_country!(id), do: Repo.get!(Country, id)
+  def get_country!(id) do
+    Country
+    |> Repo.get!(id)
+    |> Repo.preload(:currency)
+  end
 
   @doc """
   Creates a country.
