@@ -3,11 +3,11 @@ defmodule Exercise.Repo.Migrations.CreateEmployees do
 
   def change do
     create table(:employees) do
-      add :full_name, :string
-      add :job_title, :string
-      add :salary, :decimal
-      add :country_id, references(:countries, on_delete: :nothing)z
-      add :currency_id, references(:currencies, on_delete: :nothing)
+      add :full_name, :string, null: false, size: 255
+      add :job_title, :string, null: false, size: 255
+      add :salary, :decimal, null: false, precision: 10, scale: 2
+      add :country_id, references(:countries, on_delete: :nothing), null: false
+      add :currency_id, references(:currencies, on_delete: :nothing), null: false
 
       timestamps()
     end
