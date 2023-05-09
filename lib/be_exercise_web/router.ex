@@ -8,8 +8,8 @@ defmodule ExerciseWeb.Router do
   scope "/api", ExerciseWeb do
     pipe_through :api
 
-    resources "/currencies", CurrencyController
-    resources "/countries", CountryController
+    resources "/currencies", CurrencyController, except: [:new, :edit]
+    resources "/countries", CountryController, except: [:new, :edit]
   end
 
   # Enables LiveDashboard only for development
