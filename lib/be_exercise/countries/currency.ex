@@ -1,5 +1,4 @@
 defmodule Exercise.Countries.Currency do
-  alias Exercise.Countries
   alias Exercise.Countries.{Country, Employee}
   use Ecto.Schema
   import Ecto.Changeset
