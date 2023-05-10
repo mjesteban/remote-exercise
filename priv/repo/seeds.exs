@@ -68,3 +68,52 @@ for country <- country_data do
     currency_id: currency.id
   })
 end
+
+defmodule Employee.Seeds do
+
+  alias Exercise.Repo
+  alias Exercise.Countries.{Currency, Country, Employee}
+
+  def main do
+    job_title = build_job_titles()
+    country_ids = build_ids(Country)
+    currency_ids = build_ids(Currency)
+
+    Repo.transaction(fn ->
+      for _ <- 1..10000 do
+        %Employee{}
+        |> Employee.changeset(%{
+          full_name: build_full_name(),
+          job_title: Enum.random(job_title),
+          salary: generate_salary(),
+          country_id: Enum.random(country_ids),
+          currency_id: Enum.random(currency_ids)
+        })
+        |> Repo.insert!()
+      end
+    end)
+  end
+
+  defp file_to_list(filename) do
+    File.stream!("priv/data/#{filename}.txt")
+    |> Enum.map(&String.trim(&1))
+  end
+
+  defp build_full_name do
+    first_name = file_to_list("first_names") |> Enum.random()
+    last_name = file_to_list("last_names") |> Enum.random()
+    "#{first_name} #{last_name}"
+  end
+
+  defp build_job_titles() do
+    file_to_list("job_titles")
+    |> Enum.shuffle()
+    |> Enum.take(100)
+  end
+
+  defp generate_salary(), do: 1000 * (:rand.uniform(1000) + 1)
+
+  defp build_ids(resource), do: Repo.all(resource) |> Enum.map(&(&1.id))
+end
+
+Employee.Seeds.main()
