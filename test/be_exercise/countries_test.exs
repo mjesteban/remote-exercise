@@ -6,11 +6,11 @@ defmodule Exercise.CountriesTest do
   describe "currencies" do
     alias Exercise.Countries.Currency
 
-    @valid_attrs %{code: "some code", name: "some name", symbol: "some symbol"}
+    @valid_attrs %{code: "PHP", name: "Philippine Peso", symbol: "₱"}
     @update_attrs %{
-      code: "some updated code",
-      name: "some updated name",
-      symbol: "some updated symbol"
+      code: "USD",
+      name: "United States Dollar",
+      symbol: "$"
     }
     @invalid_attrs %{code: nil, name: nil, symbol: nil}
 
@@ -35,9 +35,9 @@ defmodule Exercise.CountriesTest do
 
     test "create_currency/1 with valid data creates a currency" do
       assert {:ok, %Currency{} = currency} = Countries.create_currency(@valid_attrs)
-      assert currency.code == "some code"
-      assert currency.name == "some name"
-      assert currency.symbol == "some symbol"
+      assert currency.code == @valid_attrs.code
+      assert currency.name == @valid_attrs.name
+      assert currency.symbol == @valid_attrs.symbol
     end
 
     test "create_currency/1 with invalid data returns error changeset" do
@@ -47,9 +47,9 @@ defmodule Exercise.CountriesTest do
     test "update_currency/2 with valid data updates the currency" do
       currency = currency_fixture()
       assert {:ok, %Currency{} = currency} = Countries.update_currency(currency, @update_attrs)
-      assert currency.code == "some updated code"
-      assert currency.name == "some updated name"
-      assert currency.symbol == "some updated symbol"
+      assert currency.code == @update_attrs.code
+      assert currency.name == @update_attrs.name
+      assert currency.symbol == @update_attrs.symbol
     end
 
     test "update_currency/2 with invalid data returns error changeset" do
@@ -73,8 +73,8 @@ defmodule Exercise.CountriesTest do
   describe "countries" do
     alias Exercise.Countries.Country
 
-    @valid_attrs %{code: "some code", name: "some name"}
-    @update_attrs %{code: "some updated code", name: "some updated name"}
+    @valid_attrs %{code: "Philippines", name: "PHL"}
+    @update_attrs %{code: "United Statez", name: "USZ"}
     @invalid_attrs %{code: nil, name: nil}
 
     def country_fixture(attrs \\ %{}) do
