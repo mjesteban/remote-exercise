@@ -111,7 +111,7 @@ defmodule Employee.Seeds do
     |> Enum.take(100)
   end
 
-  defp generate_salary(), do: 1000 * (:rand.uniform(1000) + 1)
+  defp generate_salary(), do: 1000 * (:rand.uniform(1000))
 
   defp build_ids(resource), do: Repo.all(resource) |> Enum.map(&(&1.id))
 end
