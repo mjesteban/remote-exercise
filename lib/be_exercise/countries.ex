@@ -322,4 +322,44 @@ defmodule Exercise.Countries do
   def change_employee(%Employee{} = employee, attrs \\ %{}) do
     Employee.changeset(employee, attrs)
   end
+
+  # def get_currency_by_code!(code) do
+  #   query =
+  #     from(c in Currency,
+  #       where: c.code == ^code
+  #     )
+
+  #   Repo.one!(query)
+  # end
+
+  def get_salary_metrics_by_country!(country) do
+    query =
+      from e in Employee,
+        join: c in Country,
+        on: c.id == e.country_id,
+        where: c.name == ^country or c.code == ^country,
+        select: %{
+          country: c.name,
+          minimum: min(e.salary),
+          maximum: max(e.salary),
+          average: fragment("ROUND(AVG(?), 2)", e.salary)
+        },
+        group_by: c.name
+
+    Repo.one!(query)
+  end
+
+  def get_salary_metrics_by_job_title!(job_title) do
+    query =
+      from e in Employee,
+        where: e.job_title == ^job_title,
+        select: %{
+          job_title: e.job_title,
+          average: fragment("ROUND(AVG(?), 2)", e.salary)
+        },
+        group_by: e.job_title
+
+    Repo.one!(query)
+  end
+
 end
