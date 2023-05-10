@@ -347,7 +347,7 @@ defmodule Exercise.Countries do
       group_by: e.job_title
   end
 
-  defp get_filter_type(filter) do
+  defp filter_as_atom(filter) do
     case Repo.one(
       from c in Country,
         where: c.name == ^filter or c.code == ^filter
@@ -357,8 +357,8 @@ defmodule Exercise.Countries do
     end
   end
 
-  def get_salary_metrics_by_filter!(%{"filter" => filter}) do
-    case get_filter_type(filter) do
+  def get_salary_metrics!(filter) do
+    case filter_as_atom(filter) do
       :country ->
         filter
         |> query_for_country()
