@@ -2,20 +2,22 @@ defmodule ExerciseWeb.CountryControllerTest do
   use ExerciseWeb.ConnCase
 
   alias Exercise.Countries
-  alias Exercise.Countries.Country
+  alias Exercise.Countries.{Country, Currency}
 
-  @create_attrs %{
-    code: "some code",
-    name: "some name"
-  }
-  @update_attrs %{
-    code: "some updated code",
-    name: "some updated name"
-  }
+  @currency_attrs %{code: "PHP", name: "Philippine Peso", symbol: "₱"}
+  @create_attrs %{code: "PHL", name: "Philippines"}
+  @update_attrs %{code: "USZ", name: "United Statez"}
   @invalid_attrs %{code: nil, name: nil}
 
+  def fixture(:currency) do
+    {:ok, currency} = Countries.create_currency(@currency_attrs)
+    currency
+  end
+
   def fixture(:country) do
-    {:ok, country} = Countries.create_country(@create_attrs)
+    currency = fixture(:currency)
+    attrs = Map.put @create_attrs, :currency_id, currency.id
+    {:ok, country} = Countries.create_country(attrs)
     country
   end
 
@@ -31,16 +33,22 @@ defmodule ExerciseWeb.CountryControllerTest do
   end
 
   describe "create country" do
-    test "renders country when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.country_path(conn, :create), country: @create_attrs)
+    setup [:create_currency]
+
+    test "renders country when data is valid", %{
+      conn: conn,
+      currency: %Currency{id: currency_id}
+    } do
+      attrs = Map.put @create_attrs, :currency_id, currency_id
+      conn = post(conn, Routes.country_path(conn, :create), country: attrs)
       assert %{"id" => id} = json_response(conn, 201)["data"]
 
       conn = get(conn, Routes.country_path(conn, :show, id))
 
       assert %{
                "id" => ^id,
-               "code" => "some code",
-               "name" => "some name"
+               "code" => "PHL",
+               "name" => "Philippines"
              } = json_response(conn, 200)["data"]
     end
 
@@ -61,8 +69,8 @@ defmodule ExerciseWeb.CountryControllerTest do
 
       assert %{
                "id" => ^id,
-               "code" => "some updated code",
-               "name" => "some updated name"
+               "code" => "USZ",
+               "name" => "United Statez"
              } = json_response(conn, 200)["data"]
     end
 
@@ -88,5 +96,10 @@ defmodule ExerciseWeb.CountryControllerTest do
   defp create_country(_) do
     country = fixture(:country)
     %{country: country}
+  end
+
+  def create_currency(_) do
+    currency = fixture(:currency)
+    %{currency: currency}
   end
 end

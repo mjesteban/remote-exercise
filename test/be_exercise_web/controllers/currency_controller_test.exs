@@ -5,14 +5,14 @@ defmodule ExerciseWeb.CurrencyControllerTest do
   alias Exercise.Countries.Currency
 
   @create_attrs %{
-    code: "some code",
-    name: "some name",
-    symbol: "some symbol"
+    code: "PHP",
+    name: "Philippine Peso",
+    symbol: "₱"
   }
   @update_attrs %{
-    code: "some updated code",
-    name: "some updated name",
-    symbol: "some updated symbol"
+    code: "USD",
+    name: "United States Dollar",
+    symbol: "$"
   }
   @invalid_attrs %{code: nil, name: nil, symbol: nil}
 
@@ -41,9 +41,9 @@ defmodule ExerciseWeb.CurrencyControllerTest do
 
       assert %{
                "id" => ^id,
-               "code" => "some code",
-               "name" => "some name",
-               "symbol" => "some symbol"
+               "code" => "PHP",
+               "name" => "Philippine Peso",
+               "symbol" => "₱"
              } = json_response(conn, 200)["data"]
     end
 
@@ -67,9 +67,9 @@ defmodule ExerciseWeb.CurrencyControllerTest do
 
       assert %{
                "id" => ^id,
-               "code" => "some updated code",
-               "name" => "some updated name",
-               "symbol" => "some updated symbol"
+               "code" => "USD",
+               "name" => "United States Dollar",
+               "symbol" => "$"
              } = json_response(conn, 200)["data"]
     end
 
