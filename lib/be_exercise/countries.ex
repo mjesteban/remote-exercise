@@ -139,7 +139,6 @@ defmodule Exercise.Countries do
   def list_countries do
     Country
     |> Repo.all()
-    |> Repo.preload(:currency)
   end
 
   @doc """
@@ -159,7 +158,6 @@ defmodule Exercise.Countries do
   def get_country!(id) do
     Country
     |> Repo.get!(id)
-    |> Repo.preload(:currency)
   end
 
   @doc """
