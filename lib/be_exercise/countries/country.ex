@@ -22,6 +22,10 @@ defmodule Exercise.Countries.Country do
       :code, ~r/^[A-Z]{3}$/,
       message: "must be in ALL CAPS"
     )
+    |> validate_format(
+      :name, ~r/^[A-Z].*$/,
+      message: "must be capitalized"
+    )
     |> unique_constraint(:name)
     |> unique_constraint(:code)
     |> assoc_constraint(:currency)

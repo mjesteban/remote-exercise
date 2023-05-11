@@ -140,8 +140,8 @@ defmodule Exercise.CountriesTest do
   describe "employees" do
     alias Exercise.Countries.Employee
 
-    @valid_attrs %{full_name: "some full_name", job_title: "some job_title", salary: "120.50"}
-    @update_attrs %{full_name: "some updated full_name", job_title: "some updated job_title", salary: "456.70"}
+    @valid_attrs %{full_name: "Mario Joseph", job_title: "Software Engineer", salary: "120.50"}
+    @update_attrs %{full_name: "Mario Joseph", job_title: "Software Engineer", salary: "456.70"}
     @invalid_attrs %{full_name: nil, job_title: nil, salary: nil}
 
     def employee_fixture(attrs \\ %{}) do

@@ -21,8 +21,8 @@ defmodule Exercise.Countries.Employee do
     |> validate_length(:full_name, max: 255)
     |> validate_length(:job_title, max: 255)
     |> validate_format(
-      :job_title, ~r/^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/,
-      message: "must be alphanumeric with words capitalized"
+      :job_title, ~r/^[A-Z].*$/,
+      message: "must be capitalized"
     )
     |> validate_number(:salary, greater_than: 1)
     |> assoc_constraint(:country)
