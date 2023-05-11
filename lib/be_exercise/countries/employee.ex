@@ -17,11 +17,15 @@ defmodule Exercise.Countries.Employee do
   def changeset(employee, attrs) do
     employee
     |> cast(attrs, [:full_name, :job_title, :salary, :country_id, :currency_id])
-    |> assoc_constraint(:country)
-    |> assoc_constraint(:currency)
-    |> validate_required([:full_name, :job_title, :salary])
+    |> validate_required([:full_name, :job_title, :salary, :country_id, :currency_id])
     |> validate_length(:full_name, max: 255)
     |> validate_length(:job_title, max: 255)
+    |> validate_format(
+      :job_title, ~r/^[A-Za-z0-9]+(?: [A-Za-z0-9]+)*$/,
+      message: "must be alphanumeric with words capitalized"
+    )
     |> validate_number(:salary, greater_than: 1)
+    |> assoc_constraint(:country)
+    |> assoc_constraint(:currency)
   end
 end

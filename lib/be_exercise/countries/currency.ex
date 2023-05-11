@@ -17,11 +17,14 @@ defmodule Exercise.Countries.Currency do
   def changeset(currency, attrs) do
     currency
     |> cast(attrs, [:code, :name, :symbol])
-    |> unique_constraint(:name)
-    |> unique_constraint(:code)
     |> validate_required([:code, :name, :symbol])
     |> validate_length(:name, max: 255)
     |> validate_length(:symbol, max: 3)
-    |> validate_format(:code, ~r/^[A-Z]{3}$/)
+    |> validate_format(
+      :code, ~r/^[A-Z]{3}$/,
+      message: "must be in ALL CAPS"
+    )
+    |> unique_constraint(:name)
+    |> unique_constraint(:code)
   end
 end
