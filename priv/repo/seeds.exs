@@ -70,10 +70,21 @@ for country <- country_data do
 end
 
 defmodule Employee.Seeds do
+  @moduledoc """
+  Employee seeder
+  """
 
   alias Exercise.Repo
   alias Exercise.Countries.{Currency, Country, Employee}
 
+  @doc """
+  Seeds 10,000 employees from text files.
+  - Full name: concatenated random first name and last name
+  - Job Title: randomly select 100 job titles
+  - Salary: randomly generate 1-1000 multiplied by 1000
+  - Country ID: randomly picked from database
+  - Currency ID: randomly picked from database
+  """
   def main do
     job_title = build_job_titles()
     country_ids = build_ids(Country)
