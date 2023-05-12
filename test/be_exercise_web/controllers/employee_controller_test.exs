@@ -18,6 +18,7 @@ defmodule ExerciseWeb.EmployeeControllerTest do
     salary: "456.70"
   }
   @invalid_attrs %{full_name: nil, job_title: nil, salary: nil}
+  @invalid_token "invalidtoken"
 
   def fixture(:currency) do
     {:ok, currency} = Countries.create_currency(@currency_attrs)
@@ -56,6 +57,13 @@ defmodule ExerciseWeb.EmployeeControllerTest do
       conn = get(conn, Routes.employee_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> get(Routes.employee_path(conn, :index))
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "create employee" do
@@ -86,6 +94,19 @@ defmodule ExerciseWeb.EmployeeControllerTest do
       conn = post(conn, Routes.employee_path(conn, :create), employee: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "renders error when bearer token is invalid", %{
+      conn: conn,
+      currency: %Currency{id: currency_id},
+      country: %Country{id: country_id}}
+    do
+      attrs = Map.put @create_attrs, :currency_id, currency_id
+      attrs = Map.put attrs, :country_id, country_id
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> post(Routes.employee_path(conn, :create), employee: attrs)
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "update employee" do
@@ -109,6 +130,13 @@ defmodule ExerciseWeb.EmployeeControllerTest do
       conn = put(conn, Routes.employee_path(conn, :update, employee), employee: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn, employee: employee} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> put(Routes.employee_path(conn, :update, employee), employee: @update_attrs)
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "delete employee" do
@@ -121,6 +149,13 @@ defmodule ExerciseWeb.EmployeeControllerTest do
       assert_error_sent 404, fn ->
         get(conn, Routes.employee_path(conn, :show, employee))
       end
+    end
+
+    test "renders error when bearer token is invalid", %{conn: conn, employee: employee} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> delete(Routes.employee_path(conn, :delete, employee))
+      assert json_response(conn, 401)["errors"] != %{}
     end
   end
 

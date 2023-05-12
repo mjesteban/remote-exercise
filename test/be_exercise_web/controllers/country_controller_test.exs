@@ -9,6 +9,7 @@ defmodule ExerciseWeb.CountryControllerTest do
   @create_attrs %{code: "PHL", name: "Philippines"}
   @update_attrs %{code: "USZ", name: "United Statez"}
   @invalid_attrs %{code: nil, name: nil}
+  @invalid_token "invalidtoken"
 
   def fixture(:currency) do
     {:ok, currency} = Countries.create_currency(@currency_attrs)
@@ -37,6 +38,13 @@ defmodule ExerciseWeb.CountryControllerTest do
       conn = get(conn, Routes.country_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> get(Routes.country_path(conn, :index))
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "create country" do
@@ -63,6 +71,14 @@ defmodule ExerciseWeb.CountryControllerTest do
       conn = post(conn, Routes.country_path(conn, :create), country: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn, currency: %Currency{id: currency_id}} do
+      attrs = Map.put @create_attrs, :currency_id, currency_id
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> post(Routes.country_path(conn, :create), country: attrs)
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "update country" do
@@ -85,6 +101,13 @@ defmodule ExerciseWeb.CountryControllerTest do
       conn = put(conn, Routes.country_path(conn, :update, country), country: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn, country: %Country{} = country} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> put(Routes.country_path(conn, :update, country), country: @update_attrs)
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "delete country" do
@@ -97,6 +120,13 @@ defmodule ExerciseWeb.CountryControllerTest do
       assert_error_sent 404, fn ->
         get(conn, Routes.country_path(conn, :show, country))
       end
+    end
+
+    test "renders error when bearer token is invalid", %{conn: conn, country: country} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> delete(Routes.country_path(conn, :delete, country))
+      assert json_response(conn, 401)["errors"] != %{}
     end
   end
 

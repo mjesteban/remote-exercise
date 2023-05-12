@@ -16,6 +16,7 @@ defmodule ExerciseWeb.CurrencyControllerTest do
     symbol: "$"
   }
   @invalid_attrs %{code: nil, name: nil, symbol: nil}
+  @invalid_token "invalidtoken"
 
   def fixture(:currency) do
     {:ok, currency} = Countries.create_currency(@create_attrs)
@@ -37,6 +38,13 @@ defmodule ExerciseWeb.CurrencyControllerTest do
       conn = get(conn, Routes.currency_path(conn, :index))
       assert json_response(conn, 200)["data"] == []
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> get(Routes.currency_path(conn, :index))
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "create currency" do
@@ -57,6 +65,13 @@ defmodule ExerciseWeb.CurrencyControllerTest do
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.currency_path(conn, :create), currency: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
+    end
+
+    test "renders error when bearer token is invalid", %{conn: conn} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> post(Routes.currency_path(conn, :create), currency: @create_attrs)
+      assert json_response(conn, 401)["errors"] != %{}
     end
   end
 
@@ -84,6 +99,13 @@ defmodule ExerciseWeb.CurrencyControllerTest do
       conn = put(conn, Routes.currency_path(conn, :update, currency), currency: @invalid_attrs)
       assert json_response(conn, 422)["errors"] != %{}
     end
+
+    test "renders error when bearer token is invalid", %{conn: conn, currency: currency} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> put(Routes.currency_path(conn, :update, currency), currency: @update_attrs)
+      assert json_response(conn, 401)["errors"] != %{}
+    end
   end
 
   describe "delete currency" do
@@ -96,6 +118,13 @@ defmodule ExerciseWeb.CurrencyControllerTest do
       assert_error_sent 404, fn ->
         get(conn, Routes.currency_path(conn, :show, currency))
       end
+    end
+
+    test "renders error when bearer token is invalid", %{conn: conn, currency: currency} do
+      conn = conn
+        |> put_req_header("authorization", "Bearer #{@invalid_token}")
+        |> delete(Routes.currency_path(conn, :delete, currency))
+      assert json_response(conn, 401)["errors"] != %{}
     end
   end
 
