@@ -15,7 +15,7 @@ defmodule ExerciseWeb.Router do
     resources "/countries", CountryController, except: [:new, :edit]
     resources "/employees", EmployeeController, except: [:new, :edit]
 
-    get "/salaries/:filter", SalaryController, :show
+    get "/salaries/:filter", SalaryController, :index
   end
 
   # Enables LiveDashboard only for development

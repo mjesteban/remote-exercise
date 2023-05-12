@@ -2,7 +2,7 @@ defmodule ExerciseWeb.SalaryView do
   use ExerciseWeb, :view
   alias ExerciseWeb.SalaryView
 
-  def render("show.json", %{salary: salary}) do
+  def render("index.json", %{salary: salary}) do
     %{data: render_one(salary, SalaryView, "salary.json")}
   end
 
