@@ -1,6 +1,7 @@
 defmodule ExerciseWeb.EmployeeControllerTest do
   use ExerciseWeb.ConnCase
 
+  alias Mix.Tasks.Token
   alias Exercise.Countries
   alias Exercise.Countries.{Currency, Country, Employee}
 
@@ -41,7 +42,13 @@ defmodule ExerciseWeb.EmployeeControllerTest do
   end
 
   setup %{conn: conn} do
-    {:ok, conn: put_req_header(conn, "accept", "application/json")}
+    token = Token.get_value()
+
+    # meh, merge_req_header is not yet available in Plug v1.11.1
+    conn = conn
+    |> put_req_header("accept", "application/json")
+    |> put_req_header("authorization", "Bearer #{token}")
+    {:ok, conn: conn}
   end
 
   describe "index" do
