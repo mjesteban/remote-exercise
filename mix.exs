@@ -59,7 +59,7 @@ defmodule Exercise.MixProject do
       token: ["run lib/mix/tasks/token.ex"],
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs", "token"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"]
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test --exclude exclude_from_test"]
     ]
   end
 end
