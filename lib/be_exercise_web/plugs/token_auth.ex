@@ -1,4 +1,7 @@
 defmodule ExerciseWeb.TokenAuth do
+  @moduledoc """
+  Authentication through a generated Phoenix.Token as a Bearer Token
+  """
   use ExerciseWeb, :controller
   import Plug.Conn
 
@@ -18,7 +21,7 @@ defmodule ExerciseWeb.TokenAuth do
     end
   end
 
-  def verify_token(token) do
+  defp verify_token(token) do
     Token.verify(
       Application.get_env(:be_exercise, ExerciseWeb.Endpoint)[:secret_key_base],
       "asin",
