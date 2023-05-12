@@ -20,11 +20,7 @@ defmodule Exercise.Countries.Employee do
     |> validate_required([:full_name, :job_title, :salary, :country_id, :currency_id])
     |> validate_length(:full_name, max: 255)
     |> validate_length(:job_title, max: 255)
-    |> validate_format(
-      :job_title, ~r/^[A-Z].*$/,
-      message: "must be capitalized"
-    )
-    |> validate_number(:salary, greater_than: 1)
+    |> validate_number(:salary, greater_than: 0)
     |> assoc_constraint(:country)
     |> assoc_constraint(:currency)
   end
