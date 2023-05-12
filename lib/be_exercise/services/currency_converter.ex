@@ -6,6 +6,25 @@ defmodule Exercise.Services.CurrencyConverter do
   and will use fixed conversion rates that will most likely not be the correct ones.
   """
 
+  @doc """
+    Converts an amount from a currency to another currency. Supported currencies are:
+
+    - Euro (EUR)
+    - UK Pound Sterling (GBP)
+    - Australian Dollar (AUD)
+    - New Zealand Dollar (NZD)
+    - Unites States Dollar (USD)
+    - Canadian Dollar (CAD)
+    - Swiss Franc (CHF)
+    - Japanese Yen (JPY)
+
+  ## Examples
+
+      iex> {:ok, value} = convert("USD", "JPY", 25)
+      iex> value
+      2741.75
+
+  """
   def convert(from, to, amount) do
     conv = Map.get(rates(), "#{from}#{to}")
 
