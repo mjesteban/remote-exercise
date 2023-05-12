@@ -1,4 +1,7 @@
 defmodule ExerciseWeb.CurrencyController do
+  @moduledoc """
+  The controller for Currency
+  """
   use ExerciseWeb, :controller
 
   alias Exercise.Countries
@@ -6,11 +9,17 @@ defmodule ExerciseWeb.CurrencyController do
 
   action_fallback ExerciseWeb.FallbackController
 
+  @doc """
+    Retrieves a list of currencies.
+  """
   def index(conn, _params) do
     currencies = Countries.list_currencies()
     render(conn, "index.json", currencies: currencies)
   end
 
+  @doc """
+    Creates a new currency.
+  """
   def create(conn, %{"currency" => currency_params}) do
     with {:ok, %Currency{} = currency} <- Countries.create_currency(currency_params) do
       conn
@@ -20,11 +29,17 @@ defmodule ExerciseWeb.CurrencyController do
     end
   end
 
+  @doc """
+    Retrieves a specific currency.
+  """
   def show(conn, %{"id" => id}) do
     currency = Countries.get_currency!(id)
     render(conn, "show.json", currency: currency)
   end
 
+  @doc """
+    Updates an existing currency.
+  """
   def update(conn, %{"id" => id, "currency" => currency_params}) do
     currency = Countries.get_currency!(id)
 
@@ -33,6 +48,9 @@ defmodule ExerciseWeb.CurrencyController do
     end
   end
 
+  @doc """
+    Deletes a currency.
+  """
   def delete(conn, %{"id" => id}) do
     currency = Countries.get_currency!(id)
 

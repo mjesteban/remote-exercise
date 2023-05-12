@@ -1,4 +1,7 @@
 defmodule ExerciseWeb.CountryController do
+  @moduledoc """
+  The controller for Country
+  """
   use ExerciseWeb, :controller
 
   alias Exercise.Countries
@@ -6,11 +9,17 @@ defmodule ExerciseWeb.CountryController do
 
   action_fallback ExerciseWeb.FallbackController
 
+  @doc """
+    Retrieves a list of countries.
+  """
   def index(conn, _params) do
     countries = Countries.list_countries()
     render(conn, "index.json", countries: countries)
   end
 
+  @doc """
+    Creates a new country
+  """
   def create(conn, %{"country" => country_params}) do
     with {:ok, %Country{} = country} <- Countries.create_country(country_params) do
       conn
@@ -20,11 +29,17 @@ defmodule ExerciseWeb.CountryController do
     end
   end
 
+  @doc """
+    Retrieves a specific country.
+  """
   def show(conn, %{"id" => id}) do
     country = Countries.get_country!(id)
     render(conn, "show.json", country: country)
   end
 
+  @doc """
+    Updates an existing country.
+  """
   def update(conn, %{"id" => id, "country" => country_params}) do
     country = Countries.get_country!(id)
 
@@ -33,6 +48,9 @@ defmodule ExerciseWeb.CountryController do
     end
   end
 
+  @doc """
+    Deletes a country.
+  """
   def delete(conn, %{"id" => id}) do
     country = Countries.get_country!(id)
 

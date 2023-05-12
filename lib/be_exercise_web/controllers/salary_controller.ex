@@ -1,13 +1,19 @@
 defmodule ExerciseWeb.SalaryController do
+  @moduledoc """
+  The controller for Salary
+  """
   use ExerciseWeb, :controller
 
-  alias Exercise.Countries
+  alias Exercise.Salaries
 
   action_fallback ExerciseWeb.FallbackController
 
-  def show(conn, %{"filter" => filter}) do
-    salary = Countries.get_salary_metrics!(filter)
-    render(conn, "show.json", salary: salary)
+  @doc """
+    Retrieves salary metrics based on a filter.
+  """
+  def index(conn, %{"filter" => filter}) do
+    salary = Salaries.get_salary_metrics!(filter)
+    render(conn, "index.json", salary: salary)
   end
 
 end
