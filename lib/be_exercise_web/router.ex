@@ -5,6 +5,7 @@ defmodule ExerciseWeb.Router do
     plug :accepts, ["json"]
     # its functional, but the tests are failing
     # plug ExerciseWeb.TrimRequest
+    plug ExerciseWeb.TokenAuth
   end
 
   scope "/api", ExerciseWeb do
