@@ -3,6 +3,8 @@ defmodule ExerciseWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    # its functional, but the tests are failing
+    # plug ExerciseWeb.TrimRequest
   end
 
   scope "/api", ExerciseWeb do
