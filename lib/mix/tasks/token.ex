@@ -1,6 +1,6 @@
 defmodule Mix.Tasks.Token do
   @moduledoc """
-  Generates a token using Phoenix.Token and can be utilized as a Bearer token in the request header.
+  Generates a token using Phoenix.Token can be utilized as a Bearer token in the request header.
   """
 
   @doc """
