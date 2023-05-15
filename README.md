@@ -21,7 +21,7 @@ The application can be opened or ran through the following:
 ### 📜 Installation
 
 ```console
-git clone https://github.com/mjesteban/mario-subscribers.git \
+git clone https://github.com/remotecom/be-code-exercise--mjesteban.git \
     && cd be-code-exercise--mjesteban \
     && mix deps.get \
     && mix ecto.setup \
