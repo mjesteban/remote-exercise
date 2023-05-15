@@ -91,6 +91,7 @@ GET     /api/salaries/:filter
     - 🗺️ [Country](#-country)
     - 👨‍🏭 [Employee](#-employee)
     - 💵 [Salary (metrics)](#-salary-metrics)
+- 📝 [README as Developer's Diary](#-readme-as-developers-diary)
 - 👋 [About Me](#-about-me)
 - 🗻 [The Challenge](#-the-challenge)
 - 🏋️ [Preparation](#-preparation)
@@ -99,7 +100,6 @@ GET     /api/salaries/:filter
     - 🚀 [Into VSCode](#-into-vscode)
     - ⌨️ [`asdf`](#-asdf)
     - ⚙️ [Applications & Browser Tabs](#-applications--browser-tabs)
-    - 📝 [README as Developer's Diary](#-readme-as-developers-diary)
 - 🌈 [The Solution](#-the-solution)
     - 1. 🔧 [Fix existing bugs in the application](#1--fix-existing-bugs-in-the-application)
     - 2. 📑 [Create an employee resource and implement default CRUD operations](#2--create-an-employee-resource-and-implement-default-crud-operations)
@@ -132,6 +132,10 @@ GET     /api/salaries/:filter
 
 ---
 
+## 📝 README as Developer's Diary
+
+To document my developer journey and *and walk you throughout the process* of the exercise, I've used this `README.md` as my developer's diary. It includes notes on pending tasks, prioritized tasks, insights into my analysis paralysis moments, and explanations behind the decisions I've made. This led to the README becoming quite lengthy. To address this, I've also created a [TL;DR](https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read) version that jumps straight into the installation and usage instructions.
+
 ## 👋 About Me
 
 *Mabuhay!* I am [Mario](https://www.linkedin.com/in/mario-joseph-esteban/), from the 🇵🇭 Philippines. For the past six years, I worked remotely as a 🐘PHP web developer with slight knowledge on frontend technologies but highly prefers the backend aspect sharpening my analytical and problem solving skills.
@@ -149,7 +153,7 @@ I am ready to take my career to the next level 💹 by joining an organized cros
 
 ## 🏋️ Preparation
 
-I feel fortunate to have received the exercise link from Chris right after my interview. I quickly skimmed through it, taking a look at the README to get a general sense of the exercise. However, I did not yet bother to dive into the codebase as per his recommendation to work on this properly after the second interview.
+I feel fortunate to have received the exercise link from [Chris](https://www.linkedin.com/in/christopherjsharpe/) right after my interview. I quickly skimmed through it, taking a look at the README to get a general sense of the exercise. However, I did not yet bother to dive into the codebase as per his recommendation to work on this properly after the second interview.
 
 In preparation for the Hiring Manager interview which was reading the public [Remote Handbook](https://remotecom.notion.site/a3439c6ccaac4d5f8c7515c357345c11?v=8bb7f9be662f45da87ef4ab14a42be37), I took a [multiplex](https://remotecom.notion.site/Working-Async-at-Remote-80c01cd443ad4c77a8ceaef7c5fba5d0#421984f91f8e498db9f27cf05f08ea7e)ed approach by immersing myself in learning Elixir and Phoenix for the first time. Here's what I did beforehand:
 
@@ -201,10 +205,6 @@ Tabs Opened:
     - [Plug v1.11](https://hexdocs.pm/plug/1.11.1/readme.html#content)
     - [ExUnit v1.11.2](https://hexdocs.pm/ex_unit/1.11.2/ExUnit.html#content)
 
-
-### 📝 README as Developer's Diary
-
-To document my developer journey and *and walk you throughout the process* of the exercise, I've used this `README.md` as my developer's diary. It includes notes on pending tasks, prioritized tasks, insights into my analysis paralysis moments, and explanations behind the decisions I've made. This led to the README becoming quite lengthy. To address this, I've also created a [TL;DR](https://en.wikipedia.org/wiki/Wikipedia:Too_long;_didn%27t_read) version that jumps straight into the installation and usage instructions.
 
 ## 🌈 The Solution
 
@@ -376,15 +376,15 @@ Foreign-key constraints:
 
 To ensure data integrity and enforce consistency, the following validation rules are applied to the fields:
 
-- **All fields are required**: Every field in the employee, currency, and country tables must have a value.
+- All fields are required
 
-- **Codes must be three alphabet characters in ALL caps**: The country and currency codes must consist of three uppercase alphabetical characters.
+- Codes must be three alphabet characters in ALL caps
 
-- **Country and currency names must be capitalized**: The names of countries and currencies should be capitalized.
+- Country and currency names must be capitalized
 
-- **Fields of type `:string` are maxed to 255 characters**: Fields defined as `:string` are limited to a maximum of 255 characters.
+- Fields of type `:string` are maxed to 255 characters
 
-- **Salary should be greater than zero**: The salary field must have a value greater than zero.
+- Salary should be greater than zero
 
 In case any of the validation rules are not met, an appropriate error message is displayed, and the response status code is set to `422 Unprocessable Entity`.
 
