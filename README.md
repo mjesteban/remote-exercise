@@ -1,5 +1,50 @@
 # Backend Code Exercise
 
+## ➕ *Update*
+
+### *May 19, 2023*
+
+> Unfortunately, after carefully analyzing your code exercise, we have decided not to proceed with your application for the current opening for Senior Backend Engineer at this time.
+> 
+> Here's the team's feedback:
+> 
+> - This was a very difficult review.  For one side I love that this candidate took some time to really document what he did, and added a pretty good Documentation on README.
+> - He also did more than what we asked by added a token based authentication which shows the candidate thought about the security of the endpoints.
+> - On the other hand, the candidate did poorly in the tests, did not care to do a good test coverage for the main feature of the system which was the salary metrics. The tests does not prove that the functionality works.
+> - There are some bugs, because the candidate didn't realise that he needs to convert salary currencies before getting the max/min/> average. 
+> - There are a lot of business logic in the controller itself which shows that the candidate probably don't know phoenix/elixir > too much which is ok but can also be because the candidate does > not have too much experience with big projects and architectures. 
+
+### *My Feedback*
+
+May I just give a feedback on the areas that I've missed, and the reasoning behind it:
+
+> *On the other hand, the candidate did poorly in the tests, did not care to do a good test coverage for the main feature of the system which was the salary metrics. The tests does not prove that the functionality works.*
+
+I am aware that having just one test employee to get the average, minimum, and maximum salary metrics is weak test coverage. However, I believe that the test is still technically correct. Retrieving the average, minimum, and maximum salary of just one employee will yield the same results. In my opinion, this is the only reason I should have failed the exercise, a weak test coverage.
+
+> *There are some bugs, because the candidate didn't realise that he needs to convert salary currencies before getting the max/min/average.*
+
+I did not convert the salaries since it is part of my best judgment of how I modeled the data. All salaries are stored and presented in United States Dollar (USD), regardless of the employee's country or the currency preference. I even pointed out when I resolved the currency conversion bug that the service will not be utilized due to the design decision.
+
+From the original README:
+
+    Given a country, the minimum, maximum, and average salary in that country.
+
+
+It did not state whether to present the currency based on the country's currency. I wish it was explicitly defined on the instructions the need to utilize the currency conversion service.*
+
+> *There are a lot of business logic in the controller itself which shows that the candidate probably don't know phoenix/elixir too much which is ok but can also be because the candidate does not have too much experience with big projects and architectures.*
+
+Regardless of knowing or not knowing Phoenix/Elixir in depth, it is common knowledge to isolate business logic from the controller. Nowhere on my controllers I put business logic. The employee controller was created out of the default scaffolding of mix phx.gen.json Countries Employee ... . The salary controller also has a separate Salaries context.
+
+### To Do:
+
+- Utilize the currency conversion service and disregard the "all currencies in USD" design
+- Add more test data for the aggregate functions
+- Update README
+
+---
+
 ## 📖 TL;DR
 
 ### 🧰 Prerequisites
